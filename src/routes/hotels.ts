@@ -4,6 +4,7 @@ import Hotel from "../models/Hotel";
 
 const router = express.Router();
 
+// add new hotel
 router.post(
   "/add-hotel",
   validateAddHotelData(), // validating hotel data | the function is at bottom
@@ -20,6 +21,31 @@ router.post(
       await hotel.save();
 
       res.json({ message: "Hotel was added successfully" });
+    } catch (error) {
+      console.log(__filename, error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+);
+
+// delete single hotel by Id
+router.delete(
+  "/delete/:hotelId",
+  check("hotelId", "Hotel Id is required").isHexadecimal(),
+  async (req: Request, res: Response) => {
+    try {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty())
+        return res.status(400).json({ message: errors.array() });
+
+      const hotel = await Hotel.findById(req.params.hotelId);
+      if (!hotel)
+        return res.status(404).json({ message: "Hotel doesn't exist" });
+
+      await Hotel.findByIdAndDelete(hotel._id);
+
+      res.json({ message: "Hotel was deleted successfully" });
     } catch (error) {
       console.log(__filename, error);
       res.status(500).json({ message: "Internal server error" });
