@@ -18,3 +18,13 @@ export type HotelDataType = {
   images: string[];
   updatedAt: Date;
 };
+
+export type BookingDataType = {
+  _id?: string;
+  hotelId: string;
+  userId: string;
+  checkInDate: Date;
+  checkOutDate: Date;
+  numberOfNights: number;
+  bookedAt: Date;
+};
