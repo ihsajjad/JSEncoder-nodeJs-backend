@@ -15,6 +15,30 @@ router.get("/", async (req: Request, res: Response) => {
   }
 });
 
+// get single hotel by Id
+router.get(
+  "/:hotelId",
+  check("hotelId", "Invalid hotelId").isHexadecimal(),
+  async (req: Request, res: Response) => {
+    try {
+      const hotelId = req.params.hotelId;
+
+      const errors = validationResult(req);
+      if (!errors.isEmpty())
+        return res.status(400).json({ message: errors.array() });
+
+      const hotel = await Hotel.findById(hotelId);
+      if (!hotel)
+        return res.status(404).json({ message: "Hotel doesn't exist" });
+
+      res.json(hotel);
+    } catch (error) {
+      console.log(__filename);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+);
+
 // add new hotel
 router.post(
   "/add-hotel",
@@ -39,6 +63,7 @@ router.post(
   }
 );
 
+// update single hotel by hotel Id
 router.put(
   "/update/:hotelId",
   check("hotelId", "Invalid HotelId").isHexadecimal(),
