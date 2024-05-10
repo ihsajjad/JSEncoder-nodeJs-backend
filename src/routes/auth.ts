@@ -87,4 +87,15 @@ router.post(
   }
 );
 
+// logout user
+router.post("/logout", async (req: Request, res: Response) => {
+  try {
+    // remove the token from client's browser
+    res.cookie("auth_token", "", { expires: new Date(0) }).send();
+  } catch (error) {
+    console.log(__filename, error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 export default router;
