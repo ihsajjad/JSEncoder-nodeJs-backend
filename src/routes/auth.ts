@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import { check, validationResult } from "express-validator";
+import { generateJWTToken } from "../lib/utils";
 import User from "../models/User";
 
 const router = express.Router();
@@ -28,6 +29,13 @@ router.post(
 
       const user = new User(userData);
       await user.save();
+
+      const token = generateJWTToken(user?._id.toString());
+
+      res.cookie("auth_token", token, {
+        httpOnly: true,
+        expires: new Date(86400000),
+      });
 
       res.json({ message: "User was created successfully" });
     } catch (error) {

@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema<UserDataType>({
   bookings: { type: String },
 });
 
-// hassing the password before storing to the database
+// hashing the password before storing to the database
 UserSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     this.password = await bcrypt.hash(this.password, 8);
