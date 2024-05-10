@@ -39,6 +39,33 @@ router.post(
   }
 );
 
+router.put(
+  "/update/:hotelId",
+  check("hotelId", "Invalid HotelId").isHexadecimal(),
+  validateAddHotelData(),
+  async (req: Request, res: Response) => {
+    try {
+      const hotelData = req.body;
+      const hotelId = req.params.hotelId;
+
+      const errors = validationResult(req);
+      if (!errors.isEmpty())
+        return res.status(400).json({ message: errors.array() });
+
+      const isHotelExist = await Hotel.findById(hotelId);
+      if (!isHotelExist)
+        return res.status(404).json({ message: "Hotel doex't exist!" });
+
+      await Hotel.findByIdAndUpdate(hotelId, hotelData);
+
+      res.json({ message: "Hotel was updated successfully" });
+    } catch (error) {
+      console.log(__filename, error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+);
+
 // delete single hotel by Id
 router.delete(
   "/delete/:hotelId",
