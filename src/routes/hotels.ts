@@ -4,6 +4,17 @@ import Hotel from "../models/Hotel";
 
 const router = express.Router();
 
+// get all hotels
+router.get("/", async (req: Request, res: Response) => {
+  try {
+    const hotels = await Hotel.find();
+    res.json(hotels);
+  } catch (error) {
+    console.log(__filename, error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 // add new hotel
 router.post(
   "/add-hotel",
