@@ -7,7 +7,7 @@ const BookingSchema = new mongoose.Schema<BookingDataType>({
   checkInDate: { type: Date, required: true },
   checkOutDate: { type: Date, required: true },
   numberOfNights: { type: Number, required: true },
-  bookedAt: { type: Date, required: true },
+  updatedAt: { type: Date, required: true },
 });
 
 const Booking = mongoose.model<BookingDataType>("Booking", BookingSchema);

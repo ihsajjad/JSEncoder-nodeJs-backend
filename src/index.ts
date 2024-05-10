@@ -4,6 +4,7 @@ import "dotenv/config";
 import express from "express";
 import mongoose from "mongoose";
 import authRoutes from "./routes/auth";
+import bookingRoutes from "./routes/bookings";
 import hotelRoutes from "./routes/hotels";
 
 const app = express();
@@ -18,5 +19,6 @@ mongoose
 
 app.use("/api/auth", authRoutes);
 app.use("/api/hotels", hotelRoutes);
+app.use("/api/bookings", bookingRoutes);
 
 app.listen(3000, () => console.log("Server is running on port : 3000"));
