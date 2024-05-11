@@ -1,122 +1,68 @@
-import express, { Request, Response } from "express";
-import { check, validationResult } from "express-validator";
-import Hotel from "../models/Hotel";
+import express from "express";
+import { check } from "express-validator";
+import {
+  addNewHotel,
+  deleteHotelById,
+  getAllHotels,
+  getSingleHotelById,
+  updateHotelById,
+} from "../controllers/hotels.controller";
 
 const router = express.Router();
-
-// get all hotels
-router.get("/", async (req: Request, res: Response) => {
-  try {
-    const hotels = await Hotel.find();
-    res.json(hotels);
-  } catch (error) {
-    console.log(__filename, error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-});
+/**
+ * @openapi
+ * /:
+ *   get:
+ *     summary: Get all hotels
+ *     description: Retrieve a list of all hotels.
+ *     responses:
+ *       '200':
+ *         description: A list of hotels
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     description: The unique identifier for the hotel
+ *                   name:
+ *                     type: string
+ *                     description: The name of the hotel
+ *                   // Add other properties of a hotel here
+ *     // Add other response codes and descriptions as needed
+ */
+router.get("/", getAllHotels);
 
 // get single hotel by Id
 router.get(
   "/:hotelId",
   check("hotelId", "Invalid hotelId").isHexadecimal(),
-  async (req: Request, res: Response) => {
-    try {
-      const hotelId = req.params.hotelId;
-
-      const errors = validationResult(req);
-      if (!errors.isEmpty())
-        return res.status(400).json({ message: errors.array() });
-
-      const hotel = await Hotel.findById(hotelId);
-      if (!hotel)
-        return res.status(404).json({ message: "Hotel doesn't exist" });
-
-      res.json(hotel);
-    } catch (error) {
-      console.log(__filename);
-      res.status(500).json({ message: "Internal server error" });
-    }
-  }
+  getSingleHotelById
 );
 
 // add new hotel
-router.post(
-  "/add-hotel",
-  validateAddHotelData(), // validating hotel data | the function is at bottom
-  async (req: Request, res: Response) => {
-    const hotelData = req.body;
-    try {
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty())
-        return res.status(400).json({ message: errors.array() });
-
-      hotelData.updatedAt = new Date();
-      const hotel = new Hotel(hotelData);
-      await hotel.save();
-
-      res.json({ message: "Hotel was added successfully" });
-    } catch (error) {
-      console.log(__filename, error);
-      res.status(500).json({ message: "Internal server error" });
-    }
-  }
-);
+router.post("/add-hotel", validateHotelData(), addNewHotel);
 
 // update single hotel by hotel Id
 router.put(
   "/update/:hotelId",
   check("hotelId", "Invalid HotelId").isHexadecimal(),
-  validateAddHotelData(),
-  async (req: Request, res: Response) => {
-    try {
-      const hotelData = req.body;
-      const hotelId = req.params.hotelId;
-
-      const errors = validationResult(req);
-      if (!errors.isEmpty())
-        return res.status(400).json({ message: errors.array() });
-
-      const isHotelExist = await Hotel.findById(hotelId);
-      if (!isHotelExist)
-        return res.status(404).json({ message: "Hotel doex't exist!" });
-
-      await Hotel.findByIdAndUpdate(hotelId, hotelData);
-
-      res.json({ message: "Hotel was updated successfully" });
-    } catch (error) {
-      console.log(__filename, error);
-      res.status(500).json({ message: "Internal server error" });
-    }
-  }
+  validateHotelData(),
+  updateHotelById
 );
 
 // delete single hotel by Id
 router.delete(
   "/delete/:hotelId",
   check("hotelId", "Hotel Id is required").isHexadecimal(),
-  async (req: Request, res: Response) => {
-    try {
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty())
-        return res.status(400).json({ message: errors.array() });
-
-      const hotel = await Hotel.findById(req.params.hotelId);
-      if (!hotel)
-        return res.status(404).json({ message: "Hotel doesn't exist" });
-
-      await Hotel.findByIdAndDelete(hotel._id);
-
-      res.json({ message: "Hotel was deleted successfully" });
-    } catch (error) {
-      console.log(__filename, error);
-      res.status(500).json({ message: "Internal server error" });
-    }
-  }
+  deleteHotelById
 );
 
-function validateAddHotelData() {
+// common function for validating hotel data
+function validateHotelData() {
   return [
     check("hotelName", "Hotel Name is required").isString(),
     check("description", "Description is required").isString(),
