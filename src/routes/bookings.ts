@@ -1,14 +1,18 @@
 import express, { Request, Response } from "express";
 import { check, validationResult } from "express-validator";
+import { validateToken } from "../middleware/validateToken";
 import Booking from "../models/Booking";
 import Hotel from "../models/Hotel";
 
 const router = express.Router();
 
 // get all bookings for admin
-router.get("/", async (req: Request, res: Response) => {
+router.get("/", validateToken, async (req: Request, res: Response) => {
   try {
-    // todo: validate the admin
+    // setted userRole while validating token
+    if (req.userRole !== "Admin")
+      return res.status(401).json({ message: "Unauthorized access" });
+
     const bookings = await Booking.find();
     res.json(bookings);
   } catch (error) {
@@ -21,9 +25,12 @@ router.get("/", async (req: Request, res: Response) => {
 router.post(
   "/create-booking",
   validateBookingData(),
+  validateToken,
   async (req: Request, res: Response) => {
     try {
       const bookingData = req.body;
+
+      // validate incoming booking data
       const errors = validationResult(req);
       if (!errors.isEmpty())
         return res.status(400).json({ message: errors.array() });
@@ -33,7 +40,7 @@ router.post(
         return res.status(404).json({ message: "Hotel doesn't exist" });
 
       bookingData.updatedAt = new Date();
-      const booking = new Booking(bookingData);
+      const booking = new Booking({ ...bookingData, userId: req.userId });
       await booking.save();
 
       res.json({ message: "Hotel was booked successfully" });
@@ -48,13 +55,15 @@ router.post(
 router.patch(
   "/check-in/:bookingId",
   check("bookingId", "Invalid bookingId").isHexadecimal().isLength({ min: 24 }),
+  validateToken,
   async (req: Request, res: Response) => {
     try {
       const bookingId = req.params.bookingId;
 
       // validate bookingId, existence of booking, and expire date
       const error = await validateHotelIdAndBooking(req); // this Fn located at bottom
-      if (!!error) return res.status(400).json(error);
+      if (!!error)
+        return res.status(error.status).json({ message: error.message });
 
       await Booking.findByIdAndUpdate(bookingId, {
         $set: { status: "Checked-In" },
@@ -72,13 +81,15 @@ router.patch(
 router.patch(
   "/check-out/:bookingId",
   check("bookingId", "Invalid bookingId").isHexadecimal().isLength({ min: 24 }),
+  validateToken,
   async (req: Request, res: Response) => {
     try {
       const bookingId = req.params.bookingId;
 
       // validate bookingId, existence of booking, and expire date
       const error = await validateHotelIdAndBooking(req); // this Fn located at bottom
-      if (!!error) return res.status(400).json(error);
+      if (!!error)
+        return res.status(error.status).json({ message: error.message });
 
       await Booking.findByIdAndUpdate(bookingId, {
         $set: { status: "Checked-Out" },
@@ -96,13 +107,15 @@ router.patch(
 router.patch(
   "/cancel/:bookingId",
   check("bookingId", "Invalid bookingId").isHexadecimal().isLength({ min: 24 }),
+  validateToken,
   async (req: Request, res: Response) => {
     try {
       const bookingId = req.params.bookingId;
 
       // validate bookingId, existence of booking, and expire date
       const error = await validateHotelIdAndBooking(req); // this Fn located at bottom
-      if (!!error) return res.status(400).json(error);
+      if (!!error)
+        return res.status(error.status).json({ message: error.message });
 
       await Booking.findByIdAndUpdate(bookingId, {
         $set: { status: "Canceled" },
@@ -116,27 +129,34 @@ router.patch(
   }
 );
 
+// validating for add new booking or update a booking
 function validateBookingData() {
   return [
     check("hotelId", "Invalid hotelId").isHexadecimal(),
-    check("userId", "Invalid userId").isHexadecimal(),
     check("checkInDate", "Invalid chackInDate").isDate(),
     check("checkOutDate", "Invalid chackOutDate").isDate(),
     check("numberOfNights", "Invalid numberOfNights").isNumeric(),
   ];
 }
 
+// doing some validation to update booking status
 async function validateHotelIdAndBooking(req: Request) {
   const bookingId = req.params.bookingId;
   const errors = validationResult(req);
-  if (!errors.isEmpty()) return { message: errors.array() };
+  if (!errors.isEmpty()) return { status: 400, message: errors.array() };
 
-  // todo: validate userId
   const booking = await Booking.findById(bookingId);
-  if (!booking) return { message: "Booking doesn't exist" };
+  if (!booking) return { status: 404, message: "Booking doesn't exist" };
+
+  if (booking.userId !== req.userId)
+    return {
+      status: 401,
+      message: "Unauthorized access",
+    };
 
   const isExpiredBooking = new Date() >= booking.checkOutDate;
-  if (isExpiredBooking) return { message: "The Booking is expired!" };
+  if (isExpiredBooking)
+    return { status: 400, message: "The Booking is expired!" };
 }
 
 export default router;

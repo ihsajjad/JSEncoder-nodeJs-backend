@@ -32,7 +32,8 @@ router.post(
       if (!isMatchedPassword)
         return res.status(400).json({ message: "Invalid password" });
 
-      const token = generateJWTToken(user?._id.toString()); // built-in utils function
+      // built-in utils function to generate token
+      const token = generateJWTToken(user?._id.toString(), user.role);
 
       // setting token to the browser cookie for authentication
       res.cookie("auth_token", token, {
@@ -72,7 +73,8 @@ router.post(
       const user = new User(req.body);
       await user.save();
 
-      const token = generateJWTToken(user?._id.toString());
+      // built-in utils function to generate token
+      const token = generateJWTToken(user?._id.toString(), user.role);
 
       res.cookie("auth_token", token, {
         httpOnly: true,

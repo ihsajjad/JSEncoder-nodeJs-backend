@@ -21,4 +21,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/bookings", bookingRoutes);
 
+app.get("/", (_, res) => {
+  res.json({ message: "Server is running on port : 3000" });
+});
+
 app.listen(3000, () => console.log("Server is running on port : 3000"));
