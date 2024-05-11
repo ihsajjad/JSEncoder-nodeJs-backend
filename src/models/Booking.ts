@@ -8,6 +8,11 @@ const BookingSchema = new mongoose.Schema<BookingDataType>({
   checkOutDate: { type: Date, required: true },
   numberOfNights: { type: Number, required: true },
   updatedAt: { type: Date, required: true },
+  status: {
+    type: String,
+    enum: ["Checked-In", "Checked-Out", "Canceled", "Pending"],
+    default: "Pending",
+  },
 });
 
 const Booking = mongoose.model<BookingDataType>("Booking", BookingSchema);

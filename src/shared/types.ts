@@ -27,4 +27,5 @@ export type BookingDataType = {
   checkOutDate: Date;
   numberOfNights: number;
   updatedAt: Date;
+  status: string;
 };
