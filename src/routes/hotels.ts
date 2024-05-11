@@ -9,31 +9,8 @@ import {
 } from "../controllers/hotels.controller";
 
 const router = express.Router();
-/**
- * @openapi
- * /:
- *   get:
- *     summary: Get all hotels
- *     description: Retrieve a list of all hotels.
- *     responses:
- *       '200':
- *         description: A list of hotels
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                     description: The unique identifier for the hotel
- *                   name:
- *                     type: string
- *                     description: The name of the hotel
- *                   // Add other properties of a hotel here
- *     // Add other response codes and descriptions as needed
- */
+
+// get all hotels
 router.get("/", getAllHotels);
 
 // get single hotel by Id
@@ -57,7 +34,7 @@ router.put(
 // delete single hotel by Id
 router.delete(
   "/delete/:hotelId",
-  check("hotelId", "Hotel Id is required").isHexadecimal(),
+  check("hotelId", "Invalid HotelId").isHexadecimal(),
   deleteHotelById
 );
 

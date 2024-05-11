@@ -2,6 +2,7 @@ import { Express, Request, Response } from "express";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import { version } from "../../package.json";
+import hotelDocs from "./hotels.docs";
 
 const options: swaggerJsdoc.Options = {
   definition: {
@@ -11,27 +12,26 @@ const options: swaggerJsdoc.Options = {
       securitySchemes: {
         cookieAuth: { type: "apiKey", in: "cookie", name: "auth_token" },
       },
-    },
-    security: [{ cookieAuth: [] }],
-    paths: {
-      "/api/hotels": {
-        get: {
-          summary: "Get all hotels",
-          description: "Retrieve a list of all hotels.",
-          responses: {
-            "200": {
-              description: "A list of hotels",
-            },
+      schemas: {
+        Hotel: {
+          type: "object",
+          properties: {
+            hotelName: { type: "string" },
+            description: { type: "string" },
+            pricePerNight: { type: "number" },
+            address: { type: "string" },
+            starRating: { type: "number" },
+            facilities: { type: "array", items: { type: "string" } },
+            images: { type: "array", items: { type: "string" } },
+            updatedAt: { type: "string", format: "date-time" },
           },
         },
       },
     },
-    // tags: [
-    //   {
-    //     name: "Hotels",
-    //     description: "Endpoints related to hotel management",
-    //   },
-    // ],
+    security: [{ cookieAuth: [] }],
+    paths: {
+      ...hotelDocs,
+    },
   },
   apis: ["../routes/*.ts", "../models/*.ts"],
 };
