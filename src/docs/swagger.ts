@@ -2,13 +2,19 @@ import { Express, Request, Response } from "express";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import { version } from "../../package.json";
+import bookingDocs from "./booking.docs";
 import hotelDocs from "./hotel.docs";
 import userDocs from "./user.docs";
 
 const options: swaggerJsdoc.Options = {
   definition: {
     openapi: "3.0.0",
-    info: { title: "Hotel Booking System API Overview", version },
+    info: {
+      title: "Hotel Booking System API Overview",
+      description:
+        "Authentication is not working at swagger. Because, I used browser cookie for authorization and swagger doesn't allow authentication using browser cookie.",
+      version,
+    },
     components: {
       securitySchemes: {
         cookieAuth: { type: "apiKey", in: "cookie", name: "auth_token" },
@@ -57,12 +63,66 @@ const options: swaggerJsdoc.Options = {
             },
           },
         },
+        // booking data schema
+        Booking: {
+          type: "object",
+          properties: {
+            hotelId: {
+              type: "string",
+              description: "The ID of the hotel",
+              example: "663e3162a7f1f639a8d596d3",
+            },
+            userId: {
+              type: "string",
+              description: "The ID of the user",
+              example: "663df9cfee7a563f2c1e6802",
+            },
+            checkInDate: {
+              type: "string",
+              format: "date-time",
+              description: "The check-in date",
+              example: "2024-05-15",
+            },
+            checkOutDate: {
+              type: "string",
+              format: "date-time",
+              description: "The check-out date",
+              example: "2024-05-15",
+            },
+            numberOfNights: {
+              type: "integer",
+              description: "The number of nights for the booking",
+              example: 2,
+            },
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+              description:
+                "The date and time when the booking was last updated",
+              example: "2022-05-17T08:00:00Z",
+            },
+            status: {
+              type: "string",
+              enum: ["Checked-In", "Checked-Out", "Canceled", "Pending"],
+              default: "Pending",
+              description: "The status of the booking",
+            },
+          },
+          required: [
+            "hotelId",
+            "userId",
+            "checkInDate",
+            "checkOutDate",
+            "numberOfNights",
+          ],
+        },
       },
     },
     security: [{ cookieAuth: [] }],
     paths: {
-      ...hotelDocs,
       ...userDocs,
+      ...hotelDocs,
+      ...bookingDocs,
     },
   },
   apis: ["../routes/*.ts", "../models/*.ts"],
