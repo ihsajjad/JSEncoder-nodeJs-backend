@@ -2,7 +2,8 @@ import { Express, Request, Response } from "express";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import { version } from "../../package.json";
-import hotelDocs from "./hotels.docs";
+import hotelDocs from "./hotel.docs";
+import userDocs from "./user.docs";
 
 const options: swaggerJsdoc.Options = {
   definition: {
@@ -13,6 +14,7 @@ const options: swaggerJsdoc.Options = {
         cookieAuth: { type: "apiKey", in: "cookie", name: "auth_token" },
       },
       schemas: {
+        // hotel data schema
         Hotel: {
           type: "object",
           properties: {
@@ -26,11 +28,41 @@ const options: swaggerJsdoc.Options = {
             updatedAt: { type: "string", format: "date-time" },
           },
         },
+        // user data schema
+        User: {
+          type: "object",
+          properties: {
+            fullName: {
+              type: "string",
+              description: "Full name of the user",
+              example: "John Doe",
+            },
+            email: {
+              type: "string",
+              description: "Email address of the user",
+              example: "john@example.com",
+            },
+            password: {
+              type: "string",
+              description: "Password of the user",
+              example: "myStrongPassword",
+            },
+          },
+          required: ["fullName", "email", "password"],
+          errorMessage: {
+            properties: {
+              fullName: "Full Name is required",
+              email: "Email is required",
+              password: "Password is required",
+            },
+          },
+        },
       },
     },
     security: [{ cookieAuth: [] }],
     paths: {
       ...hotelDocs,
+      ...userDocs,
     },
   },
   apis: ["../routes/*.ts", "../models/*.ts"],

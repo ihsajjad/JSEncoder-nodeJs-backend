@@ -76,7 +76,9 @@ export const registerUser = async (req: Request, res: Response) => {
 export const logoutUser = async (req: Request, res: Response) => {
   try {
     // remove the token from client's browser
-    res.cookie("auth_token", "", { expires: new Date(0) }).send();
+    res
+      .cookie("auth_token", "", { expires: new Date(0) })
+      .json({ message: "User logged out successfull" });
   } catch (error) {
     console.log(__filename, error);
     res.status(500).json({ message: "Internal server error" });
