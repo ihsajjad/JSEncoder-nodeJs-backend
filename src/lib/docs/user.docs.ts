@@ -1,3 +1,10 @@
+/**
+ * Title: User Documentation
+ * Description: This file contains comprehensive documentation for user management, covering endpoints, request parameters, and response formats related to user authentication, registration, and profile management.
+ * Author: MD Iftekher Hossen Sajjad
+ * Date: 12/5/2024
+ */
+
 export default {
   "/api/auth/register": {
     post: {

@@ -1,6 +1,13 @@
+/**
+ * Title: Hotels Controllers
+ * Description: This file contains controller functions for managing hotel-related operations, such as fetching hotel data, creating, updating, and deleting hotels.
+ * Author: MD Iftekher Hossen Sajjad
+ * Date: 11/5/2024
+ */
+
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
-import Hotel from "../models/Hotel";
+import Hotel from "../models/Hotel.model";
 
 export const getAllHotels = async (req: Request, res: Response) => {
   try {

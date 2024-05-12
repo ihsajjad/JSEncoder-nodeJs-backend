@@ -1,3 +1,10 @@
+/**
+ * Title: Hotels Routes
+ * Description: This file defines routes related to hotel management, including CRUD operations for hotels and related functionalities.
+ * Author: MD Iftekher Hossen Sajjad
+ * Date: 11/5/2024
+ */
+
 import express from "express";
 import { check } from "express-validator";
 import {

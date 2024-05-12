@@ -1,3 +1,10 @@
+/**
+ * Title: Authentication Routes
+ * Description: This file defines routes related to user authentication, such as login, registration, and logout.
+ * Author: MD Iftekher Hossen Sajjad
+ * Date: 10/5/2024
+ */
+
 import express from "express";
 import { check } from "express-validator";
 import {

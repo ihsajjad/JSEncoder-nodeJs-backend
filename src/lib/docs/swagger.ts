@@ -1,7 +1,14 @@
+/**
+ * Title: Swagger Documentation Configuration
+ * Description: This file sets up Swagger documentation for the Node.js Express API, providing detailed documentation of available endpoints, request parameters, and responses.
+ * Author: MD Iftekher Hossen Sajjad
+ * Date: 12/5/2024
+ */
+
 import { Express, Request, Response } from "express";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
-import { version } from "../../package.json";
+import { version } from "../../../package.json";
 import bookingDocs from "./booking.docs";
 import hotelDocs from "./hotel.docs";
 import userDocs from "./user.docs";

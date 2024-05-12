@@ -1,7 +1,14 @@
+/**
+ * Title: Booking Controllers
+ * Description: This file contains controller functions for managing hotel booking operations, such as creating, updating, and canceling bookings, as well as retrieving booking information.
+ * Date: 10/5/2024
+ * Note: I commented some authorization codes because swagger does'nt allow browser cookie for authentication because of securety reasons.
+ */
+
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
-import Booking from "../models/Booking";
-import Hotel from "../models/Hotel";
+import Booking from "../models/Booking.model";
+import Hotel from "../models/Hotel.model";
 
 export const getAllBookings = async (req: Request, res: Response) => {
   try {

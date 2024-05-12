@@ -1,3 +1,10 @@
+/**
+ * Title: Hotel Documentation
+ * Description: This file provides detailed documentation for hotel management, including explanations of available endpoints, request parameters, and response formats related to hotels.
+ * Author: MD Iftekher Hossen Sajjad
+ * Date: 12/5/2024
+ */
+
 export default {
   "/api/hotels": {
     get: {

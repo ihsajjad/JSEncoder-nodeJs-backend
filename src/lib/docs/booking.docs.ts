@@ -1,3 +1,10 @@
+/**
+ * Title: Bookings Documentation
+ * Description: This file contains documentation for hotel bookings, including explanations of available endpoints, request parameters, and response formats.
+ * Author: MD Iftekher Hossen Sajjad
+ * Date: 12/5/2024
+ */
+
 export default {
   "/api/bookings": {
     get: {

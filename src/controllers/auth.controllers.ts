@@ -1,8 +1,16 @@
+/**
+ * Title: Authentication Controllers
+ * Description: This file contains controller functions for handling user authentication logic, such as login, registration, and logout.
+ * Author: MD Iftekher Hossen Sajjad
+ * Date: 10/5/2024
+ * Note: I commented some authorization codes because swagger does'nt allow browser cookie for authentication because of securety reasons.
+ */
+
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { generateJWTToken } from "../lib/utils";
-import User from "../models/User";
+import User from "../models/User.model";
 
 // user login
 export const loginUser = async (req: Request, res: Response) => {

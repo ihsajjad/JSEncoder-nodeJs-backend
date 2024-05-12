@@ -1,3 +1,10 @@
+/**
+ * Title: Bookings Routes
+ * Description: This file defines routes for handling hotel bookings, including reservation, cancellation, and modification of bookings.
+ * Author: MD Iftekher Hossen Sajjad
+ * Date: 11/5/2024
+ */
+
 import express from "express";
 import { check } from "express-validator";
 import {
