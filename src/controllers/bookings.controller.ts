@@ -60,7 +60,9 @@ export const createNewBooking = async (req: Request, res: Response) => {
     bookingData.status = "Pending";
     const booking = new Booking({
       ...bookingData,
-      userId: req?.userId || "609def9c8c20c31200cf5ef8",
+      // Giving a static userId instead of original userId because the Swagger doesn't allow cookie authorization
+
+      userId: "609def9c8c20c31200cf5ef8",
     });
     await booking.save();
 

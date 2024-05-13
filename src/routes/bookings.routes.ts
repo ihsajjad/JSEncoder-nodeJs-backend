@@ -15,7 +15,6 @@ import {
   getAllBookings,
   getBookingById,
 } from "../controllers/bookings.controller";
-import { validateToken } from "../middleware/validateToken";
 
 const router = express.Router();
 
@@ -33,7 +32,7 @@ router.get(
 router.post(
   "/create-booking",
   validateBookingData(),
-  validateToken,
+  // validateToken,
   createNewBooking
 );
 

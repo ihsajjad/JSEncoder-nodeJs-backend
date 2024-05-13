@@ -18,8 +18,9 @@ services:
           target: /app
           action: sync
     environment:
-      - MONGODB_URI=mongodb+srv://hotelAdmin:BcQpB3pYgaIYlw5w@cluster0.hbiibcp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-      - JWT_SECRET_KEY=tyuSDf$%^gjvSDFGf$%^&*56J56$KJ
+      - Node_ENV=development
+    env_file:
+      - .env
 
 volumes:
   hotel:
