@@ -16,7 +16,7 @@ import bookingRoutes from "./routes/bookings.routes";
 import hotelRoutes from "./routes/hotels.routes";
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(cookieParser());
@@ -33,7 +33,7 @@ app.use("/api/hotels", hotelRoutes);
 app.use("/api/bookings", bookingRoutes);
 
 // swagger docs function
-swaggerDocs(app, port);
+swaggerDocs(app, parseInt(port.toString()));
 
 app.get("/", (_, res) => {
   res.json({ message: "Server is running on port : 3000" });

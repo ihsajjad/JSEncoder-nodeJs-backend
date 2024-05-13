@@ -22,6 +22,8 @@ This project is a RESTful API for a hotel booking system built using Node.js wit
 - Docker
 - Swagger
 
+live link: https://hotel-system-api-l8jv.onrender.com
+
 ## Getting Started
 
 Follow these instructions to get the project up and running on your local machine.
