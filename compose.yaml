@@ -1,0 +1,25 @@
+# specify the version of docker-compose
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    develop:
+      watch:
+        - path: ./package.json
+          action: rebuild
+        - path: ./package-lock.json
+          action: rebuild
+        - path: .
+          target: /app
+          action: sync
+    environment:
+      - MONGODB_URI=mongodb+srv://hotelAdmin:BcQpB3pYgaIYlw5w@cluster0.hbiibcp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - JWT_SECRET_KEY=tyuSDf$%^gjvSDFGf$%^&*56J56$KJ
+
+volumes:
+  hotel:
