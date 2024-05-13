@@ -1,6 +1,6 @@
 # Hotel Booking System API
 
-This project is a RESTful API for a hotel booking system built using Node.js with Express.js and TypeScript. The API manages user authentication, room management, booking operations, and more.
+This project is a RESTful API for a hotel booking system built using Node.js with Express.js and TypeScript. The API manages user authentication, room management, booking operations, and more. I used JWT and browser cookie for the authorization.
 
 ## Features
 
@@ -66,9 +66,7 @@ Follow these instructions to get the project up and running on your local machin
 
 ### Docker Container Setup (Optional)
 
-1. Run Docker Compose:
-
-   Run the following command in the directory where your docker-compose.yml file is located:
+1. Run Docker Compose: Run the following command in the directory where your docker-compose.yml file is located:
 
    ```
    docker compose up --build
@@ -86,20 +84,20 @@ The API exposes the following endpoints:
 
 ##### Hotels
 
-- **GET /hotels**: Retrieve all hotels.
-- **GET /hotels/:hotelId**: Retrieve a single hotel by its ID.
-- **POST /hotels/add-hotel**: Add a new hotel.
-- **PUT /hotels/update/:hotelId**: Update an existing hotel by its ID.
-- **DELETE /hotels/delete/:hotelId**: Delete a hotel by its ID.
+- `GET /hotels`: Retrieve all hotels.
+- `GET /hotels/:hotelId`: Retrieve a single hotel by its ID.
+- `POST /hotels/add-hotel`: Add a new hotel.
+- `PUT /hotels/update/:hotelId`: Update an existing hotel by its ID.
+- `DELETE /hotels/delete/:hotelId`: Delete a hotel by its ID.
 
 ##### Bookings
 
-- **GET /bookings**: Retrieve all bookings.
-- **GET /bookings/:bookingId**: Retrieve a single booking by its ID.
-- **POST /bookings/create-booking**: Create a new booking.
-- **PATCH /bookings/check-in/:bookingId**: Change the status of a booking to "Check-in".
-- **PATCH /bookings/check-out/:bookingId**: Change the status of a booking to "Check-out".
-- **PATCH /bookings/cancel/:bookingId**: Cancel a booking.
+- `GET /bookings`: Retrieve all bookings.
+- `GET /bookings/:bookingId`: Retrieve a single booking by its ID.
+- `POST /bookings/create-booking`: Create a new booking.
+- `PATCH /bookings/check-in/:bookingId`: Change the status of a booking to "Check-in".
+- `PATCH /bookings/check-out/:bookingId`: Change the status of a booking to "Check-out".
+- `PATCH /bookings/cancel/:bookingId`: Cancel a booking.
 
 For detailed documentation, refer to the [Swagger API documentation](http://localhost:3000/docs) after running the application.
 
