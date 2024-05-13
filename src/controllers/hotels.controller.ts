@@ -1,7 +1,7 @@
 /**
  * Title: Hotels Controllers
  * Description: This file contains controller functions for managing hotel-related operations, such as fetching hotel data, creating, updating, and deleting hotels.
- * Author: MD Iftekher Hossen Sajjad
+ * Author: MD Iftekher Hossen
  * Date: 11/5/2024
  */
 

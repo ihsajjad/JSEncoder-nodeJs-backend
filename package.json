@@ -5,7 +5,8 @@
   "main": "./src/index.ts",
   "scripts": {
     "dev": "nodemon ./src/index.ts",
-    "build": "npm i"
+    "build": "npm install && npx tsc",
+    "start": "node ./dist/src/index.js"
   },
   "keywords": [],
   "author": "MD Iftekher Hossen Sajjad",
