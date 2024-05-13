@@ -66,11 +66,15 @@ Follow these instructions to get the project up and running on your local machin
 
 ### Docker Container Setup (Optional)
 
-1. Run Docker Compose: Run the following command in the directory where your docker-compose.yml file is located:
+1. Start your docker desktop application
+
+2. Run Docker Compose: Run the following command in the directory where your docker-compose.yml file is located:
 
    ```
    docker compose up --build
    ```
+
+   Now go to the http://localhost:3000/docs for the API endpoints documentation.
 
 ## API Endpoints
 
