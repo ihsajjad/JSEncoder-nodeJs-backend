@@ -14,6 +14,7 @@ import swaggerDocs from "./lib/docs/swagger";
 import authRoutes from "./routes/auth.routes";
 import bookingRoutes from "./routes/bookings.routes";
 import hotelRoutes from "./routes/hotels.routes";
+import surveyRutes from "./routes/survey.routes";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -31,6 +32,7 @@ mongoose
 app.use("/api/auth", authRoutes);
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/bookings", bookingRoutes);
+app.use("/api/survey", surveyRutes);
 
 // swagger docs function
 swaggerDocs(app, parseInt(port.toString()));

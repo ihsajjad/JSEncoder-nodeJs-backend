@@ -36,3 +36,15 @@ export type BookingDataType = {
   updatedAt: Date;
   status: string;
 };
+
+export interface SurveyType {
+  subject: string;
+  appType: "Website" | "Mobile App";
+  opinion: string;
+  deviceInfo?: {
+    ip: string;
+    device: string;
+    browser: string;
+    os: string;
+  };
+}
