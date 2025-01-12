@@ -82,6 +82,7 @@ export const getSurveyForm = async (req: Request, res: Response) => {
 export const hscSurvey = async (req: Request, res: Response) => {
   try {
     const { subject, opinion, appType } = req.body;
+    const date = new Date();
 
     if (!subject) {
       return res.status(400).json("Subject is required");
@@ -97,6 +98,7 @@ export const hscSurvey = async (req: Request, res: Response) => {
     const deviceInfo = parser.setUA(userAgent as string).getResult();
 
     const newSurvey = new Survey({
+      date,
       subject,
       opinion,
       appType,

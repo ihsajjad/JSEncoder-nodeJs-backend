@@ -2,6 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import { SurveyType } from "../shared/types";
 
 const SurveySchema = new Schema<SurveyType>({
+  date: { type: Date },
   subject: { type: String, },
   appType: { type: String, enum: ["Website", "Mobile App"], },
   opinion: { type: String, },
