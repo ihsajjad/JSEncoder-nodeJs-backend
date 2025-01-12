@@ -81,10 +81,10 @@ export const hscSurvey = async (
   res: Response
 ) => {
   try {
-    const { subject, ans } = req.body;
+    const { subject, opinion } = req.body;
 
-    if (!subject || !ans) {
-      res.status(400).json({ message: "Subject and Ans are required" });
+    if (!subject) {
+      res.status(400).json({ message: "Subject is required" });
     }
 
     // Get user IP
@@ -99,7 +99,7 @@ export const hscSurvey = async (
 
     const newSurvey = new Survey({
       subject,
-      ans,
+      opinion,
       deviceInfo: {
         ip: userIP,
         device: deviceInfo.device,
