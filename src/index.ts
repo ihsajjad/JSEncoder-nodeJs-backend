@@ -22,6 +22,7 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // connect mongodb database
 mongoose
