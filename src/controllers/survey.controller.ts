@@ -3,7 +3,7 @@ import { UAParser } from "ua-parser-js";
 import Survey from "../models/Survey.Model";
 
 const form = `<form
-  action="/submit-survey"
+  action="/api/survey/submit-survey"
   method="POST"
   class="max-w-lg mx-auto bg-white shadow-md rounded-lg p-6 space-y-6"
 >
