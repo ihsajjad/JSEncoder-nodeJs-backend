@@ -6,10 +6,15 @@
  */
 
 import express from "express";
-import { getSurveyForm, hscSurvey } from "../controllers/survey.controller";
+import {
+    getSurveies,
+    getSurveyForm,
+    hscSurvey,
+} from "../controllers/survey.controller";
 
 const router = express.Router();
 
+router.get("/", getSurveies);
 // get all hotels
 router.get("/hsc", getSurveyForm);
 

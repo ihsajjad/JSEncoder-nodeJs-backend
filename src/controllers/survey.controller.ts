@@ -112,7 +112,17 @@ export const hscSurvey = async (req: Request, res: Response) => {
 
     await newSurvey.save();
 
-    res.send({message: "আপনার গুরুত্বপূর্ণ মতামত দেওয়ার জন্য অনেক ধন্যবাদ!"});
+    res.send({ message: "আপনার গুরুত্বপূর্ণ মতামত দেওয়ার জন্য অনেক ধন্যবাদ!" });
+  } catch (error: any) {
+    console.log(__filename, error.message);
+    res.status(500).json("Internal server error");
+  }
+};
+
+export const getSurveies = async (req: Request, res: Response) => {
+  try {
+    const survies = await Survey.find();
+    res.json(survies);
   } catch (error: any) {
     console.log(__filename, error.message);
     res.status(500).json("Internal server error");
